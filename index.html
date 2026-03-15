@@ -10,11 +10,13 @@ body{
     margin:0;
     padding:0;
     overflow-x:hidden;
-    position: relative;
+    display:flex;
+    justify-content:center;
 }
 
 /* Card */
 .card{
+    position: relative;
     background:white;
     padding:25px;
     border-radius:15px;
@@ -22,8 +24,7 @@ body{
     width:360px;
     max-width:90vw;
     box-shadow:0 10px 25px rgba(0,0,0,0.25);
-    margin:50px auto;
-    position: relative;
+    margin:50px 0;
     z-index:1;
 }
 
@@ -60,7 +61,7 @@ h1{
 
 /* Confetti */
 .confetti{
-    position:absolute;
+    position: fixed; /* prevents extra scroll */
     width:10px;
     height:10px;
     top:0;
@@ -78,19 +79,19 @@ h1{
 
 /* Hearts */
 .heart{
-    position:absolute;
+    position: fixed; /* float over viewport */
     font-size:200px; /* 10x bigger */
     color:#ff4d6d;
     pointer-events:none;
     z-index:3;
     animation-name:floatUp;
     animation-timing-function: linear;
-    animation-iteration-count: infinite;
+    animation-iteration-count: 1;
 }
 
 @keyframes floatUp{
-    0%{ transform:translateY(100vh) scale(0.5); opacity:1; }
-    100%{ transform:translateY(-10vh) scale(1.2); opacity:0; }
+    0%{ transform: translateY(100vh) scale(0.5); opacity:1; }
+    100%{ transform: translateY(0) scale(1.2); opacity:0; }
 }
 </style>
 </head>
@@ -118,14 +119,13 @@ document.getElementById("message").innerText =
 /* Slideshow */
 let slides = document.querySelectorAll(".slideshow img");
 let index = 0;
-
 setInterval(() => {
     slides[index].classList.remove("active");
     index = (index + 1) % slides.length;
     slides[index].classList.add("active");
 }, 3000);
 
-/* Confetti animation */
+/* Confetti */
 function createConfetti(count=120){
     for(let i=0;i<count;i++){
         let confetti = document.createElement("div");
@@ -137,14 +137,14 @@ function createConfetti(count=120){
     }
 }
 
-/* Floating hearts animation */
+/* Floating hearts over viewport */
 function createHearts(){
     setInterval(()=>{
         let heart = document.createElement("div");
         heart.classList.add("heart");
         heart.innerHTML="❤️";
         heart.style.left = Math.random()*100+"vw";
-        heart.style.animationDuration = (Math.random()*3 + 4) + "s";
+        heart.style.animationDuration = (Math.random()*3 + 4)+"s";
         document.body.appendChild(heart);
         setTimeout(()=>{ heart.remove(); }, 6000);
     }, 400);
