@@ -33,7 +33,6 @@ h1{
 
 /* slideshow container */
 .slideshow{
-    position:relative;
     width:100%;
     overflow:hidden;
     border-radius:10px;
@@ -42,18 +41,13 @@ h1{
 
 /* slideshow images */
 .slideshow img{
-    position:absolute;
     width:100%;
-    height:auto; /* auto height */
-    top:0;
-    left:0;
-    object-fit:contain;
-    opacity:0;
-    transition:opacity 1.5s, height 0.5s;
+    height:auto;
+    display:none; /* hide all images by default */
 }
 
 .slideshow img.active{
-    opacity:1;
+    display:block; /* only show active image */
 }
 
 /* confetti */
@@ -109,30 +103,14 @@ const name = params.get("name") || "Shreya";
 document.getElementById("message").innerText =
 "Dear " + name + ", Congratulations on your first bonus! I'm really happy and proud of you. It's truly well deserved after all the hard work and dedication you've put in. Achievements like this show how much your efforts are paying off, and it makes me so glad to see you succeed. I just wish I could have been there to celebrate this moment with you. But we'll definitely celebrate together when we meet soon. This is just the beginning of many more successes ahead. Wishing you continued growth, happiness, and success ❤️";
 
-/* slideshow with dynamic height */
+/* slideshow with fully visible images */
 let slides = document.querySelectorAll(".slideshow img");
-let slideshowContainer = document.querySelector(".slideshow");
 let index = 0;
-
-// Function to adjust container height to active image
-function updateSlideshowHeight() {
-    let activeImg = slides[index];
-    slideshowContainer.style.height = activeImg.naturalHeight * (slideshowContainer.offsetWidth / activeImg.naturalWidth) + "px";
-}
-
-// Initial height
-slides[0].onload = updateSlideshowHeight;
-updateSlideshowHeight();
 
 setInterval(()=>{
     slides[index].classList.remove("active");
-    index = (index+1) % slides.length;
+    index = (index + 1) % slides.length;
     slides[index].classList.add("active");
-    if(slides[index].complete){
-        updateSlideshowHeight();
-    } else {
-        slides[index].onload = updateSlideshowHeight;
-    }
 },3000);
 
 /* confetti */
