@@ -81,7 +81,7 @@ h1{
 /* Hearts */
 .heart{
     position: fixed; /* float over viewport */
-    font-size:200px; /* 10x bigger */
+    font-size:200px; /* default 10x bigger */
     color:#ff4d6d;
     pointer-events:none;
     z-index:3;
@@ -94,6 +94,13 @@ h1{
 @keyframes floatUp{
     0%{ transform: translateY(110vh) scale(0.5); opacity:1; } /* start below viewport */
     100%{ transform: translateY(-50px) scale(1.2); opacity:0; } /* float off top */
+}
+
+/* Mobile: reduce heart size by 50% */
+@media (max-width: 600px) {
+    .heart {
+        font-size: 100px;
+    }
 }
 </style>
 </head>
