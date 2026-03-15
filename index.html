@@ -2,43 +2,45 @@
 <html>
 <head>
 <title>Congratulations 🎉🎉</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Important for mobile scaling -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-/* Body */
 body{
     font-family: Arial;
     background: linear-gradient(135deg,#ff919e,#fad0c4);
     margin:0;
     padding:0;
     overflow-x:hidden;
+    position: relative; /* important for absolute hearts/confetti */
 }
 
-/* Card */
+/* card */
 .card{
     background:white;
     padding:25px;
     border-radius:15px;
     text-align:center;
     width:360px;
-    max-width:90vw; /* responsive width */
+    max-width:90vw;
     box-shadow:0 10px 25px rgba(0,0,0,0.25);
-    margin:50px auto; /* center horizontally */
+    margin:50px auto;
+    position: relative; /* keeps card content normal */
+    z-index: 1; /* card below hearts/confetti */
 }
 
-/* Heading */
+/* heading */
 h1{
     color:#ff4d4d;
     font-size:1.5rem;
 }
 
-/* Message */
+/* message */
 #message{
     font-size:1rem;
     margin-top:15px;
     word-wrap:break-word;
 }
 
-/* Slideshow container */
+/* slideshow */
 .slideshow{
     width:100%;
     overflow:hidden;
@@ -46,38 +48,41 @@ h1{
     margin-top:15px;
 }
 
-/* Images */
+/* slideshow images */
 .slideshow img{
     width:100%;
     height:auto;
-    display:none; /* hide by default */
+    display:none;
 }
 
 .slideshow img.active{
-    display:block; /* show active image */
+    display:block;
 }
 
-/* Confetti */
+/* confetti */
 .confetti{
     position:absolute;
     width:10px;
     height:10px;
-    top:-10px;
+    top:0;
     animation:fall 4s linear infinite;
+    pointer-events:none;
+    z-index: 2;
+}
+
+/* floating hearts */
+.heart{
+    position:absolute;
+    font-size:200px; /* 10x bigger */
+    color:#ff4d6d;
+    animation:floatUp 6s linear infinite;
+    pointer-events:none;
+    z-index: 3; /* above everything */
 }
 
 @keyframes fall{
     0%{ transform:translateY(0) rotate(0);}
     100%{ transform:translateY(100vh) rotate(720deg);}
-}
-
-/* Floating hearts */
-.heart{
-    position:absolute;
-    font-size:200px; /* 10× larger */
-    color:#ff4d6d;
-    animation:floatUp 6s linear infinite;
-    pointer-events:none;
 }
 
 @keyframes floatUp{
@@ -98,16 +103,16 @@ h1{
     <img src="photo3.jpeg">
     <img src="photo4.jpeg">
 </div>
-</div>
+</div> <!-- end card -->
 
 <script>
-/* Dynamic message based on ?name= */
+/* dynamic name */
 const params = new URLSearchParams(window.location.search);
 const name = params.get("name") || "Shreya";
 document.getElementById("message").innerText =
 "Dear " + name + ", Congratulations on your first bonus! I'm really happy and proud of you. It's truly well deserved after all the hard work and dedication you've put in. Achievements like this show how much your efforts are paying off, and it makes me so glad to see you succeed. I just wish I could have been there to celebrate this moment with you. But we'll definitely celebrate together when we meet soon. This is just the beginning of many more successes ahead. Wishing you continued growth, happiness, and success ❤️";
 
-/* Slideshow functionality */
+/* slideshow */
 let slides = document.querySelectorAll(".slideshow img");
 let index = 0;
 
@@ -117,7 +122,7 @@ setInterval(() => {
     slides[index].classList.add("active");
 }, 3000);
 
-/* Confetti animation */
+/* confetti on whole page */
 function createConfetti(){
     for(let i=0;i<120;i++){
         let confetti=document.createElement("div");
@@ -129,7 +134,7 @@ function createConfetti(){
     }
 }
 
-/* Floating hearts */
+/* floating hearts on whole page */
 function createHearts(){
     setInterval(()=>{
         let heart=document.createElement("div");
@@ -142,7 +147,6 @@ function createHearts(){
     },400);
 }
 
-/* Start animations */
 createConfetti();
 createHearts();
 </script>
